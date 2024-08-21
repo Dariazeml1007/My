@@ -128,7 +128,7 @@ void PrintRoots (int NRoots, double *x1, double *x2)
             break;
 
         case TwoRoots:
-            printf ("First root : x1 = %f ", *x1);
+            printf ("First root : x1 = %f\n", *x1);
             printf ("Second root : x2 = %f", *x2);
             break;
 
