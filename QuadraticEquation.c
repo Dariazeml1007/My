@@ -1,16 +1,11 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+#include <stdbool.h>
+#include <assert.h>
 
 const double EPS = 1e-7;
-
-typedef enum
-{
-    BIGGER,
-    SMALLER,
-    EQUAL
-
-} compare_;
+// structs
 
 typedef enum
 {
@@ -22,39 +17,84 @@ typedef enum
 } AmountOfRoots;
 
 
-void get_cofficient (double *out, char sym);
-void get_cofficients (double *a, double *b, double *c);
+typedef enum
+{
+    BIGGER = 1,
+    SMALLER = -1,
+    EQUAL = 0
+
+} compare_;
+
+typedef enum
+{
+    TestCheckERROR = 0,
+    TestCheckCORRECT = 1
+
+} check_ ;
+
+/**
+* struct Square_parameters
+*
+* @brief Description of structure for check function
+*/
+
+struct Square_parameters
+{
+    int TestNumber;
+    double a, b, c;
+    double correct_x1, correct_x2;
+    AmountOfRoots correct_NRoots;
+
+};
+
+struct Solving_parameters
+{
+    double a, b, c;
+    double *x1, *x2;
+};
+
+
+void GetCofficient (double *out, char sym);
+void GetCofficients (double *a, double *b, double *c);
+
 AmountOfRoots SolveQuadratic (double a, double b, double c, double *x1, double *x2);
 AmountOfRoots CalculateSquare (double a, double b, double c, double *x1, double *x2);
 AmountOfRoots CalculateLineal (double b, double c, double *x1);
+
 void PrintRoots (int NRoots, double *x1, double *x2);
-int TestCheck (int TestNumber, double a, double b, double c, double correct_x1, double correct_x2, int correct_NRoots);
-char *AllTestCheck (void);
-compare_ Comparison_doubles (double a, double b);
+
+check_ TestCheck (struct Square_parameters data );
+check_ AllTestCheck (void);
+
+compare_ ComparisonDoubles (double a, double b);
+bool IsZero (double a);
+
 
 int main(void)
 {
-    double a = 0, b = 0, c = 0;
-    get_cofficients(&a, &b, &c);
+    if (AllTestCheck ())
+    {
+        double a = 0, b = 0, c = 0;
+        GetCofficients(&a, &b, &c);
 
-    double x1 = 0, x2 = 0;// Roots
-    AmountOfRoots NRoots = SolveQuadratic (a, b, c, &x1, &x2);// Amount of roots
+        double x1 = 0, x2 = 0;// Roots
+        AmountOfRoots NRoots = SolveQuadratic (a, b, c, &x1, &x2);// Amount of roots
 
-    PrintRoots (NRoots, &x1, &x2);
+        PrintRoots (NRoots, &x1, &x2);
+    }
 
-    //printf("%s", AllTestCheck ());
     return 0;
 }
 
 /**
-* Gets coefficient
+*Gets coefficient
 *
 * @brief Reading a coefficient as long as the input is not a number
 * @param [out] out - result of scanning
 * @param [in]  sym - name of coefficient
 */
 
-void get_cofficient (double *out, char sym)
+void GetCofficient (double *out, char sym)
 {
     printf ("%c = ", sym);
     while (scanf ("%lf", out) != 1)
@@ -69,17 +109,17 @@ void get_cofficient (double *out, char sym)
 
 /**
 * Gets coefficients
-* @brief Reading all coefficients by using get_cofficient function
+* @brief Reading all coefficients by using GetCofficient function
 * @param [in] *a - pointer to coefficient a
 * @param [in] *b - pointer to coefficient b
 * @param [in] *c - pointer to coefficient c
 */
 
-void get_cofficients (double *a, double *b, double *c)
+void GetCofficients (double *a, double *b, double *c)
 {
-    get_cofficient(a, 'a');
-    get_cofficient(b, 'b');
-    get_cofficient(c, 'c');
+    GetCofficient(a, 'a');
+    GetCofficient(b, 'b');
+    GetCofficient(c, 'c');
 }
 
 /**
@@ -94,7 +134,14 @@ void get_cofficients (double *a, double *b, double *c)
 
 AmountOfRoots SolveQuadratic (double a, double b, double c, double *x1, double *x2)
 {
-    if (Comparison_doubles (a,0) == EQUAL)
+    assert (isfinite(a));
+    assert (isfinite(b));
+    assert (isfinite(c));
+
+    assert(x1 != x2);
+    assert(x1 != NULL);
+
+    if (ComparisonDoubles (a,0) == EQUAL)
     {
         return CalculateLineal (b, c, x1);
     }
@@ -114,11 +161,11 @@ AmountOfRoots SolveQuadratic (double a, double b, double c, double *x1, double *
 
 AmountOfRoots CalculateLineal (double b, double c, double *x1)
 {
-    if (Comparison_doubles (b,0) == EQUAL)
-        return InfinityRoots; // infinity
+    if (ComparisonDoubles (b,0) == EQUAL)
+        return InfinityRoots;
     else
         *x1 = -c / b;
-        return OneRoot; //not a quadratic equation, lineal
+        return OneRoot;
 }
 
 /**
@@ -136,23 +183,33 @@ AmountOfRoots CalculateSquare (double a, double b, double c, double *x1, double 
     double d = 0; // discriminant
     d = b * b - 4 * a * c;
 
-    if (d == 0)
+    switch (ComparisonDoubles(d, 0))
     {
+
+    case EQUAL :
+
         *x1 = -b / (2 * a);
 
-        return OneRoot;// 1 root
-    }
+        return OneRoot;
 
-    else if (d > 0)
-    {
+    case BIGGER :
+
         *x1 = (-b + sqrt(d)) / (2 * a);
         *x2 = (-b - sqrt(d)) / (2 * a);
 
         return TwoRoots;
+
+    case SMALLER :
+
+        return NoRoots;
+
+    default :
+
+        assert(false);
+
+
     }
 
-    else
-        return NoRoots; // no roots
 }
 
 /**
@@ -165,6 +222,9 @@ AmountOfRoots CalculateSquare (double a, double b, double c, double *x1, double 
 
 void PrintRoots (int NRoots, double *x1, double *x2)
 {
+    assert(x1 != x2);
+    assert(x1 != NULL);
+
     switch (NRoots)
     {
         case InfinityRoots:
@@ -186,34 +246,33 @@ void PrintRoots (int NRoots, double *x1, double *x2)
             break;
 
         default :
-            printf ("ERROR");
+            assert(false);
     }
 }
 
 /**
 * TestCheck
 * @brief Print error, if a test fails
-* @param [in] TestNumber - a number of test
-* @param [in] correct_NRoots - expected amount of roots
-* @param [in] correct_x1 - expected x1
-* @param [in] correct_x2 - expected x2
-* @param [in] a - coefficient a
-* @param [in] b - coefficient b
-* @param [in] c - coefficient c
+* @param [in] struct Square_parameters data - struct for check
+
 */
 
-int TestCheck (int TestNumber, double a, double b, double c, double correct_x1, double correct_x2, int correct_NRoots)
+check_ TestCheck (struct Square_parameters data)
 {
     double x1 = 0, x2 = 0;
-    int NRoots = SolveQuadratic (a, b, c, &x1, &x2);
-    if (NRoots != correct_NRoots || x1 != correct_x1 || x2 != correct_x2)
+    int NRoots = SolveQuadratic (data.a , data.b, data.c, &x1, &x2);
+
+    if (IsZero(NRoots - data.correct_NRoots) && IsZero(x1 - data.correct_x1) && IsZero(x2 - data.correct_x2))
     {
-        printf ("Error test %d, a = %lf, b = %lf, c = %lf, x1 = %lf, x2 = %lf, NRoots = %lf, correct_x1 = %lf, correct_x2 = %lf, correct_NRoots = %lf",
-                TestNumber, a, b, c, x1, x2, NRoots, correct_x1, correct_x2, correct_NRoots);
-        return -1;
+        printf("Test number %d successfully completed \n", data.TestNumber);
+        return TestCheckCORRECT;
     }
     else
-        return 1;
+      printf ("Error test %d, a = %lf, b = %lf, c = %lf, x1 = %lf, x2 = %lf "
+              "NRoots = %d, correct_x1 = %lf, correct_x2 = %lf, correct_NRoots = %d\n",
+                data.TestNumber, data.a, data.b, data.c, x1, x2,
+                NRoots, data.correct_x1, data.correct_x2, data.correct_NRoots);
+    return TestCheckERROR;
 
 }
 
@@ -222,24 +281,55 @@ int TestCheck (int TestNumber, double a, double b, double c, double correct_x1, 
 * @brief return Success, if everything is alright
 */
 
-char *AllTestCheck (void)
+check_ AllTestCheck (void)
 {
+    printf("Tests are running \n");
+    check_ flag = TestCheckCORRECT;
+    struct Square_parameters array_sp [] =
+    {
+        {1, 1, 0, -4, 2, -2, TwoRoots},
+        {2, 0, 0, 3, 0, 0, InfinityRoots},
+        {3, 0, 4, 2, -0.5, 0, OneRoot},
+        {4, 1, -0.7, 0.1, 0.5, 0.2, TwoRoots},
+        {5, 1, -5, 0, 5, 0, TwoRoots},
+        {6, 1, 5, 7, 0, 0, NoRoots},
+        {7, 0 , 0 , 0, 0 , 0, InfinityRoots}
+    };
 
-    if (
-    TestCheck (1, 2, 3, -5, 1, -2.5, 2) &&
-    TestCheck (2, 0, 0, -5, 0, 0, -1) &&
-    TestCheck (3, 0, 3, 6, -2, 0, 1)
-        )
-        printf("Success");
+    int n = sizeof(array_sp)/sizeof(array_sp[0]);
 
+    for (int i = 0; i < n; i++)
+    {
+        if (!(TestCheck(array_sp[i])))
+            flag = TestCheckERROR;
+    }
+    if (flag)
+    {
+        printf("All tests successfully completed \n");
+        return TestCheckCORRECT;
+    }
+    else
+    {
+        printf ("Some tests failed/n");
+        return TestCheckERROR;
+    }
 }
 
-compare_ Comparison_doubles (double a, double b)
+compare_ ComparisonDoubles (double a, double b)
 {
     if (a - b > EPS)
         return BIGGER;
+
     else if (fabs(a - b) < EPS)
         return EQUAL;
+
     else
         return SMALLER;
+}
+
+bool IsZero (double a)
+{
+    if (fabs(a) < EPS)
+        return true;
+    return false;
 }
