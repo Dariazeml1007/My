@@ -21,6 +21,7 @@ typedef enum
 
 } AmountOfRoots;
 
+
 void get_cofficient (double *out, char sym);
 void get_cofficients (double *a, double *b, double *c);
 AmountOfRoots SolveQuadratic (double a, double b, double c, double *x1, double *x2);
@@ -45,6 +46,14 @@ int main(void)
     return 0;
 }
 
+/**
+* Gets coefficient
+*
+* @brief Reading a coefficient as long as the input is not a number
+* @param [out] out - result of scanning
+* @param [in]  sym - name of coefficient
+*/
+
 void get_cofficient (double *out, char sym)
 {
     printf ("%c = ", sym);
@@ -58,12 +67,30 @@ void get_cofficient (double *out, char sym)
     }
 }
 
+/**
+* Gets coefficients
+* @brief Reading all coefficients by using get_cofficient function
+* @param [in] *a - pointer to coefficient a
+* @param [in] *b - pointer to coefficient b
+* @param [in] *c - pointer to coefficient c
+*/
+
 void get_cofficients (double *a, double *b, double *c)
 {
     get_cofficient(a, 'a');
     get_cofficient(b, 'b');
     get_cofficient(c, 'c');
 }
+
+/**
+* Solve Quadratic
+* @brief function for solving a quadratic equation (cases considered inside)
+* @param [in] a - coefficient a
+* @param [in] b - coefficient b
+* @param [in] c - coefficient c
+* @param [in] x1 - pointer to the first root
+* @param [in] x2 - pointer to the second root
+*/
 
 AmountOfRoots SolveQuadratic (double a, double b, double c, double *x1, double *x2)
 {
@@ -77,6 +104,14 @@ AmountOfRoots SolveQuadratic (double a, double b, double c, double *x1, double *
     }
 }
 
+/**
+* Calculate Lineal
+* @brief Considering the lineal case
+* @param [in] b - coefficient b
+* @param [in] c - coefficient c
+* @param [in] x1 - pointer to the first root
+*/
+
 AmountOfRoots CalculateLineal (double b, double c, double *x1)
 {
     if (Comparison_doubles (b,0) == EQUAL)
@@ -85,6 +120,16 @@ AmountOfRoots CalculateLineal (double b, double c, double *x1)
         *x1 = -c / b;
         return OneRoot; //not a quadratic equation, lineal
 }
+
+/**
+* Calculate Square
+* @brief Considering the square case
+* @param [in] a - coefficient a
+* @param [in] b - coefficient b
+* @param [in] c - coefficient c
+* @param [in] x1 - pointer to the first root
+* @param [in] x2 - pointer to the second root
+*/
 
 AmountOfRoots CalculateSquare (double a, double b, double c, double *x1, double *x2)
 {
@@ -109,6 +154,14 @@ AmountOfRoots CalculateSquare (double a, double b, double c, double *x1, double 
     else
         return NoRoots; // no roots
 }
+
+/**
+* Print Roots
+* @brief Print answers
+* @param [in] NRoots - amount of roots
+* @param [in] x1 - pointer to the first root
+* @param [in] x2 - pointer to the second root
+*/
 
 void PrintRoots (int NRoots, double *x1, double *x2)
 {
@@ -137,6 +190,18 @@ void PrintRoots (int NRoots, double *x1, double *x2)
     }
 }
 
+/**
+* TestCheck
+* @brief Print error, if a test fails
+* @param [in] TestNumber - a number of test
+* @param [in] correct_NRoots - expected amount of roots
+* @param [in] correct_x1 - expected x1
+* @param [in] correct_x2 - expected x2
+* @param [in] a - coefficient a
+* @param [in] b - coefficient b
+* @param [in] c - coefficient c
+*/
+
 int TestCheck (int TestNumber, double a, double b, double c, double correct_x1, double correct_x2, int correct_NRoots)
 {
     double x1 = 0, x2 = 0;
@@ -151,6 +216,11 @@ int TestCheck (int TestNumber, double a, double b, double c, double correct_x1, 
         return 1;
 
 }
+
+/**
+* AllTestCheck
+* @brief return Success, if everything is alright
+*/
 
 char *AllTestCheck (void)
 {
