@@ -53,8 +53,6 @@ struct Solving_parameters
 
 };
 
-
-
 struct Square_parameters
 {
     int TestNumber;

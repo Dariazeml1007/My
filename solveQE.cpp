@@ -13,7 +13,7 @@ compare_ ComparisonDoubles (double a, double b)
     if (a - b > EPS)
         return BIGGER;
 
-    else if (fabs(a - b) < EPS)
+    else if (fabs (a - b) < EPS)
         return EQUAL;
 
     else
@@ -22,11 +22,12 @@ compare_ ComparisonDoubles (double a, double b)
 
 bool IsZero (double a)
 {
-    if (fabs(a) < EPS)
+    if (fabs (a) < EPS)
         return true;
 
     return false;
 }
+
 
 /**
 * Solve Quadratic
@@ -37,9 +38,9 @@ bool IsZero (double a)
 AmountOfRoots SolveQuadratic (Solving_parameters *data)
 {
     assert (data != NULL);
-    assert (isfinite(data -> a));
-    assert (isfinite(data -> b));
-    assert (isfinite(data -> c));
+    assert (isfinite (data -> a));
+    assert (isfinite (data -> b));
+    assert (isfinite (data -> c));
 
 
     if (ComparisonDoubles ((data -> a),0) == EQUAL)
@@ -52,6 +53,7 @@ AmountOfRoots SolveQuadratic (Solving_parameters *data)
         return CalculateSquare (data);
     }
 }
+
 
 /**
 * Calculate Lineal
@@ -71,6 +73,7 @@ AmountOfRoots CalculateLineal (Solving_parameters *data)
 
     return OneRoot;
 }
+
 
 /**
 * Calculate Square

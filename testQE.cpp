@@ -14,20 +14,20 @@
 #include "ColorsText.h"
 
 
-Status_file arrayStructsFromFile()
+Status_file arrayStructsFromFile(char *nameOfFile)
 {
     check_ flag = TestCheckCORRECT;
-    struct Square_parameters SP_file;
+    struct Square_parameters SP_file = {};
     FILE * pFile = NULL;
 
-    pFile = fopen ("file.txt","r");
+    pFile = fopen (nameOfFile,"r");
     if (pFile == NULL)
     {
         return Failed_Open_Error;
     }
 
     while ((fscanf (pFile,"%d, %lf, %lf, %lf, %lf, %lf, %d",
-     &SP_file.TestNumber, &SP_file.a, &SP_file.b, &SP_file.c, &SP_file.correct_x1, &SP_file.correct_x2, (int *)&SP_file.correct_NRoots)) == 7)
+                    &SP_file.TestNumber, &SP_file.a, &SP_file.b, &SP_file.c, &SP_file.correct_x1, &SP_file.correct_x2, (int *)&SP_file.correct_NRoots)) == 7)
     {
 
         if ((TestCheck (&(SP_file))) == TestCheckERROR)
@@ -37,29 +37,29 @@ Status_file arrayStructsFromFile()
 
     if (flag == TestCheckCORRECT)
     {
-
+        PaintConsol (Green);
         printf ("All tests successfully completed \n");
 
     }
 
     else
     {
-
+        PaintConsol (Red);
         printf ("Some tests failed/n");
 
     }
-
-    if ((fclose(pFile)) == 0)
+    PaintConsol (White);
+    if ((fclose (pFile)) == 0)
         return Success_Read_File;
     return Not_Closed;
 }
+
 
 /**
 * TestCheck
 * @brief Print error, if a test fails
 * @param [in] struct Square_parameters data - struct for check
 */
-
 
 check_ TestCheck (struct Square_parameters *data)
 {
@@ -103,7 +103,7 @@ check_ TestCheck (struct Square_parameters *data)
         {
             PaintConsol (Red);
             printf ("Error test number %d : Not correct values of roots x1 = %lf, x2 = %lf, correct_x1 = %lf, correct_x2 = %lf \n",
-            (data -> TestNumber), (test_param.x1), (test_param.x2), (data -> correct_x1), (data -> correct_x2));
+                    (data -> TestNumber), (test_param.x1), (test_param.x2), (data -> correct_x1), (data -> correct_x2));
             return TestCheckERROR;
         }
     }
@@ -128,7 +128,6 @@ check_ TestCheck (struct Square_parameters *data)
 }
 
 
-
 /**
 * AllTestCheck
 * @brief return Success, if everything is alright
@@ -141,19 +140,20 @@ check_ AllTestCheck (void)
     check_ flag = TestCheckCORRECT;
     struct Square_parameters array_sp [] =
     {
-        {1, 1, 0, -4, 2, -2, TwoRoots},
-        {2, 0, 0, 3, 0, 0, InfinityRoots},
-        {3, 0, 4, 2, -0.5, 0, OneRoot},
-        {4, 1, -0.7, 0.1, 0.5, 0.2, TwoRoots},
-        {5, 1, -5, 0, 5, 0, TwoRoots},
-        {6, 1, 5, 7, 0, 0, NoRoots},
-        {7, 0 , 0 , 0, 0, 0, InfinityRoots}
+        {1, 1,    0,  -4,    2,  -2, TwoRoots},
+        {2, 0,    0,   3,    0,   0, InfinityRoots},
+        {3, 0,    4,   2, -0.5,   0, OneRoot},
+        {4, 1, -0.7, 0.1,  0.5, 0.2, TwoRoots},
+        {5, 1,   -5,   0,    5,   0, TwoRoots},
+        {6, 1,    5,   7,    0,   0, NoRoots},
+        {7, 0,    0,   0,    0,   0, InfinityRoots}
     };
 
     int length = sizeof(array_sp)/sizeof(array_sp[0]);
 
     for (int i = 0; i < length; i++)
     {
+        assert ( 0 <= i && i < length);
 
         if ((TestCheck (&(array_sp[i]))) == TestCheckERROR)
             flag = TestCheckERROR;
@@ -164,13 +164,12 @@ check_ AllTestCheck (void)
         PaintConsol (Green);
         printf ("All tests successfully completed \n");
 
-
     }
 
     else
     {
         PaintConsol (Red);
-        printf ("Some tests failed");
+        printf ("Some tests failed \n");
 
     }
     PaintConsol (White);

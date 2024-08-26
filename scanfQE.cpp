@@ -5,6 +5,8 @@
 
 #include "scanfQE.h"
 #include "ColorsText.h"
+
+
 /**
 *Gets coefficient
 *
@@ -33,6 +35,7 @@ void GetCofficient (double *out, char sym)
     }
 }
 
+
 /**
 * Gets coefficients
 * @brief Reading all coefficients by using GetCofficient function
@@ -43,8 +46,8 @@ void GetCofficient (double *out, char sym)
 
 void GetCofficients (double *a, double *b, double *c)
 {
-    GetCofficient(a, 'a');
-    GetCofficient(b, 'b');
-    GetCofficient(c, 'c');
+    GetCofficient (a, 'a');
+    GetCofficient (b, 'b');
+    GetCofficient (c, 'c');
 }
 

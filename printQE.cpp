@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <windows.h>
 
-
 #include "printQE.h"
 #include "ColorsText.h"
 
@@ -37,7 +36,7 @@ void PrintRoots (AmountOfRoots NRoots, Solving_parameters *data)
 
         case NoRoots :
 
-            PaintConsol(Turquoise);
+            PaintConsol (Turquoise);
             printf ("No roots");
             PaintConsol (White);
 
