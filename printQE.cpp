@@ -10,6 +10,18 @@
 #include "ColorsText.h"
 
 
+void PrintHelp()
+{
+    PaintConsole (BLUE);
+
+    printf ("You can:\n"
+            "test my program by using <--test>\n"
+            "try to use my program by using <--solve> \n"
+            "load your own tests from file by using <--file NameOfFile> \n");
+
+    PaintConsole (WHITE);
+}
+
 /**
 * Print Roots
 * @brief Print answers
@@ -26,41 +38,41 @@ void PrintRoots (AmountOfRoots NRoots, Solving_parameters *data)
 
     switch (NRoots)
     {
-        case InfinityRoots:
+        case INFINITY_ROOTS:
 
-            PaintConsol(Blue);
-            printf ("Infinity roots");
-            PaintConsol (White);
-
-            break;
-
-        case NoRoots :
-
-            PaintConsol (Turquoise);
-            printf ("No roots");
-            PaintConsol (White);
+            PaintConsole(BLUE);
+            printf ("Infinity roots \n");
+            PaintConsole (WHITE);
 
             break;
 
-        case OneRoot :
+        case NO_ROOTS :
 
-            PaintConsol (Pink);
+            PaintConsole (TURQUOISE);
+            printf ("No roots \n");
+            PaintConsole (WHITE);
 
-            printf ("One root : x1 = ");
+            break;
+
+        case ONE_ROOT :
+
+            PaintConsole (PINK);
+
+            printf ("One root : x1 =  \n");
             printf ("%f", data -> x1);
 
-            PaintConsol (White);
+            PaintConsole (WHITE);
 
             break;
 
-        case TwoRoots:
+        case TWO_ROOTS:
 
-            PaintConsol (Pink);
+            PaintConsole (PINK);
 
             printf ("First root : x1 = %f\n", data -> x1);
-            printf ("Second root : x2 = %f", data -> x2);
+            printf ("Second root : x2 = %f\n", data -> x2);
 
-            PaintConsol (White);
+            PaintConsole (WHITE);
             break;
 
         default :

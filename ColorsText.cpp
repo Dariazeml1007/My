@@ -6,37 +6,37 @@
 #include "ColorsText.h"
 
 
-void PaintConsol (color a)
+void PaintConsole (Color color)
 {
     HANDLE console = GetStdHandle (STD_OUTPUT_HANDLE);
-    switch(a)
+    switch(color)
     {
-        case Red :
+        case RED :
             SetConsoleTextAttribute (console, FOREGROUND_RED);
             break;
 
-        case Blue:
+        case BLUE:
             SetConsoleTextAttribute (console, FOREGROUND_BLUE);
             break;
 
-        case Green:
+        case GREEN:
             SetConsoleTextAttribute (console, FOREGROUND_GREEN);
             break;
 
-        case Pink:
+        case PINK:
             SetConsoleTextAttribute (console, FOREGROUND_RED | FOREGROUND_BLUE);
             break;
 
-        case Turquoise:
+        case TURQUOISE:
             SetConsoleTextAttribute (console, FOREGROUND_GREEN | FOREGROUND_BLUE);
 
             break;
 
-        case Yellow:
+        case YELLOW:
             SetConsoleTextAttribute (console, FOREGROUND_RED | FOREGROUND_GREEN);
             break;
 
-        case White:
+        case WHITE:
             SetConsoleTextAttribute (console, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
             break;
 

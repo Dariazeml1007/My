@@ -18,17 +18,20 @@
 void GetCofficient (double *out, char sym)
 {
     printf ("%c = ", sym);
-    char str[256];
+    const int size = 256;
+    char str[size] = "";
 
     while (scanf ("%lf", out) != 1)
     {
-        if (scanf("%s", str) == 1 && strcmp(str,"exit") == 0)
-            exit(EXIT_FAILURE);
+        if (scanf ("%s", str) == 1 && strcmp (str, "exit") == 0)
+            exit (EXIT_FAILURE);
 
-        PaintConsol (Red);
-        printf("Error, try again \n");
-        PaintConsol (White);
+        PaintConsole (RED);
+        printf ("Error, try again \n");
+        PaintConsole (WHITE);
         printf ("%c = ", sym);
+
+        //
         while (getchar() != '\n')
             ;
 

@@ -2,11 +2,14 @@
 #define SQUARE_SOLVER
 
 #include "dataQE.h"
+#include "scanfQE.h"
+#include "printQE.h"
 
-compare_ ComparisonDoubles (double a, double b);
+COMPARE ComparisonDoubles (double a, double b);
 bool IsZero (double a);
 
-AmountOfRoots SolveQuadratic (Solving_parameters *data);
+void UsingQuadraticEquation ();
+AmountOfRoots SolveQuadratic  (Solving_parameters *data);
 AmountOfRoots CalculateLineal (Solving_parameters *data);
 AmountOfRoots CalculateSquare (Solving_parameters *data);
 

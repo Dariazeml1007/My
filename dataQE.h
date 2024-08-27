@@ -3,54 +3,54 @@
 
 typedef enum
 {
-    Red,
-    Green,
-    Blue,
-    Turquoise,
-    White,
-    Pink,
-    Yellow
+    RED,
+    GREEN,
+    BLUE,
+    TURQUOISE,
+    WHITE,
+    PINK,
+    YELLOW
 
-} color;
+} Color;
+
+// F2  rename
+typedef enum
+{
+    SUCCESS_READ_FILE = 0,
+    FAILED_OPEN_ERROR = 1,
+    NOT_CLOSED = -1
+
+} StatusFile;
 
 typedef enum
 {
-    Success_Read_File = 0,
-    Failed_Open_Error = 1,
-    Not_Closed = -1
-
-} Status_file;
-
-typedef enum
-{
-    InfinityRoots = -1,
-    NoRoots = 0,
-    OneRoot = 1,
-    TwoRoots = 2
+    INFINITY_ROOTS = -1,
+    NO_ROOTS = 0,
+    ONE_ROOT = 1,
+    TWO_ROOTS = 2
 
 } AmountOfRoots;
 
 typedef enum
 {
-    BIGGER = 1,
-    SMALLER = -1,
+    GREATER = 1,
+    LESS = -1,
     EQUAL = 0
 
-} compare_;
+} COMPARE;
 
 typedef enum
 {
-    TestCheckERROR = 1,
-    TestCheckCORRECT = 0
+    TEST_CHECK_ERROR = 1,
+    TEST_CHECK_CORRECT = 0
 
-} check_ ;
+} CHECK;
 
 
 struct Solving_parameters
 {
     double a, b, c;
     double x1, x2;
-
 };
 
 struct Square_parameters
@@ -60,6 +60,17 @@ struct Square_parameters
     double correct_x1, correct_x2;
     AmountOfRoots correct_NRoots;
 
+};
+
+struct Argv_type
+{
+    bool is_file    = false;
+    bool is_test    = false;
+    bool user_file  = false;
+    bool is_help    = false;
+    bool is_solve   = false;
+
+    int f_index = 0;
 };
 
 #endif // SQUARE_DATA

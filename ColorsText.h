@@ -3,6 +3,6 @@
 
 #include "dataQE.h"
 
-void PaintConsol(color a);
+void PaintConsole(Color color);
 
 #endif //SQUARE_PAINTER

@@ -8,16 +8,16 @@
 
 const double EPS = 1e-7;
 
-compare_ ComparisonDoubles (double a, double b)
+COMPARE ComparisonDoubles (double a, double b)
 {
     if (a - b > EPS)
-        return BIGGER;
+        return GREATER;
 
     else if (fabs (a - b) < EPS)
         return EQUAL;
 
     else
-        return SMALLER;
+        return LESS;
 }
 
 bool IsZero (double a)
@@ -28,6 +28,17 @@ bool IsZero (double a)
     return false;
 }
 
+void UsingQuadraticEquation ()
+{
+    double a = 0, b = 0, c = 0;
+    GetCofficients (&a, &b, &c);
+
+    double x1 = 0, x2 = 0;// Roots
+    Solving_parameters cofficients_roots = {a, b, c, x1, x2};
+    AmountOfRoots nRoots = SolveQuadratic (&cofficients_roots);// Amount of roots
+
+    PrintRoots (nRoots, &cofficients_roots);
+}
 
 /**
 * Solve Quadratic
@@ -47,7 +58,6 @@ AmountOfRoots SolveQuadratic (Solving_parameters *data)
     {
         return CalculateLineal (data);
     }
-
     else
     {
         return CalculateSquare (data);
@@ -64,14 +74,14 @@ AmountOfRoots SolveQuadratic (Solving_parameters *data)
 AmountOfRoots CalculateLineal (Solving_parameters *data)
 {
     if (ComparisonDoubles (data -> b, 0) == EQUAL)
-        return InfinityRoots;
+        return INFINITY_ROOTS;
 
     if (ComparisonDoubles (data -> c, 0) == EQUAL)
         data -> x1 = (data -> c) / (data -> b);
     else
         data -> x1 = -(data -> c) / (data -> b);
 
-    return OneRoot;
+    return ONE_ROOT;
 }
 
 
@@ -92,24 +102,25 @@ AmountOfRoots CalculateSquare (Solving_parameters *data)
 
         data -> x1 = -(data -> b) / (2 * (data -> a));
 
-        return OneRoot;
+        return ONE_ROOT;
 
-    case BIGGER :
+    case GREATER :
+    {
+        double sqrt_d = sqrt(d);
 
-        data -> x1 = (-(data -> b) + sqrt(d)) / (2 * (data -> a));
-        data -> x2 = (-(data -> b) - sqrt(d)) / (2 * (data -> a));
+        data -> x1 = (-(data -> b) + sqrt_d) / (2 * (data -> a));
+        data -> x2 = (-(data -> b) - sqrt_d) / (2 * (data -> a));
 
-        return TwoRoots;
+        return TWO_ROOTS;
+    }
 
-    case SMALLER :
+    case LESS :
 
-        return NoRoots;
+        return NO_ROOTS;
 
     default :
 
-        assert(false);
-
-
+        assert (false);
     }
 
 }

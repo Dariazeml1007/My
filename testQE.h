@@ -4,8 +4,8 @@
 #include "dataQE.h"
 #include "ColorsText.h"
 
-Status_file arrayStructsFromFile(char *NameOfFile);
-check_ TestCheck (struct Square_parameters *data);
-check_ AllTestCheck (void);
+StatusFile ArrayStructsFromFile (const char *nameOfFile);
+CHECK TestCheck (struct Square_parameters *data);
+CHECK AllTestCheck (void);
 
 #endif //SQUARE_SOLVERS_TESTS
